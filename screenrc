@@ -1,0 +1,4 @@
+caption always "%{=b kg}[ %H ]%{= Wk}  %-w%{= Bw}%n %t%{-}%+w %-="
+vbell off
+escape ^Jj
+startup_message off
