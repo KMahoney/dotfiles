@@ -48,6 +48,8 @@
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
+;; (mapcar 'package-install '(cider clojure-mode haskell-mode magit paredit projectile rainbow-mode zenburn-theme))
+
 (load-theme 'zenburn t)
 
 (global-auto-revert-mode)
