@@ -45,7 +45,7 @@
 
 (require 'package)
 (add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
 ;; (mapcar 'package-install '(cider clojure-mode haskell-mode magit paredit projectile rainbow-mode zenburn-theme))
