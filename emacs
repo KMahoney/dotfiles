@@ -56,6 +56,8 @@
 
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 (add-hook 'clojure-mode-hook 'paredit-mode)
+(add-hook 'python-mode-hook 'flycheck-mode)
+(add-hook 'python-mode-hook 'outline-minor-mode)
 
 (require 'projectile)
 (projectile-global-mode)
