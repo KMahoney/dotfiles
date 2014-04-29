@@ -27,6 +27,8 @@
 (global-set-key (kbd "C-M-s") 'isearch-forward)
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 (global-set-key (kbd "<f5>") 'query-replace-regexp)
+(global-set-key (kbd "C-c '") 'helm-git-files)
+(global-set-key (kbd "C-c #") 'helm-git-grep)
 
 (show-paren-mode 1)
 (setq-default indent-tabs-mode nil)
