@@ -3,6 +3,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(python-fill-docstring-style (quote onetwo))
+ '(scss-compile-at-save nil)
+ '(sgml-basic-offset 4)
  '(truncate-lines t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -29,6 +32,11 @@
 (global-set-key (kbd "<f5>") 'query-replace-regexp)
 (global-set-key (kbd "C-c '") 'helm-git-files)
 (global-set-key (kbd "C-c #") 'helm-git-grep)
+
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
 
 (show-paren-mode 1)
 (setq-default indent-tabs-mode nil)
