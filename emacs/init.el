@@ -84,8 +84,10 @@
 (global-set-key (kbd "C-=") 'er/expand-region)
 
 
+;; projectile
 (require 'projectile)
 (projectile-global-mode)
+(setq projectile-completion-system 'helm)
 
 
 ;; Haskell
