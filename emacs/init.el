@@ -31,11 +31,11 @@
 (setq dired-listing-switches "-lFa --group-directories-first")
 
 ;; Executable paths
-(add-to-list 'exec-path (concat (getenv "HOME") "/.local/bin"))
-(add-to-list 'exec-path (concat (getenv "HOME") "/.cargo/bin"))
+(add-to-list 'exec-path "~/.local/bin")
+(add-to-list 'exec-path "~/.cargo/bin")
 
 ;; Custom modules
-(add-to-list 'load-path (concat (getenv "HOME") "/.emacs.d/modules"))
+(add-to-list 'load-path (concat user-emacs-directory "modules"))
 
 ;; -------------------------------------------------------------
 ;; Mac setup
@@ -43,7 +43,7 @@
 
 (when (eq system-type 'darwin)
   (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-  (add-to-list 'exec-path ("/usr/local/bin"))
+  (add-to-list 'exec-path "/usr/local/bin")
   (setq insert-directory-program "gls")
   (global-set-key (kbd "M-3") (lambda () (interactive) (insert "#"))))
 
