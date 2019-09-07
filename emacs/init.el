@@ -1,20 +1,18 @@
 ;; Packages
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(setq package-enable-at-startup nil)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
+(require 'use-package)
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
 
-
-;; Appearance
 (tool-bar-mode -1)
 (menu-bar-mode -1)
-(load-theme 'zenburn t)
-
 
 ;; Customisation
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (load custom-file)
-
 
 ;; Setup
 (fset 'yes-or-no-p #'y-or-n-p)
@@ -26,88 +24,176 @@
 (setq backup-directory-alist `(("." . ,(concat user-emacs-directory "backups"))))
 (setq ispell-dictionary "en_GB")
 (set-default 'truncate-lines t)
-(setq dired-listing-switches "-lFa --group-directories-first")
-(setq tramp-debug-buffer t)
-
 (require 'uniquify)
 (show-paren-mode 1)
 (setq-default indent-tabs-mode nil)
-
 (global-auto-revert-mode)
-(add-hook 'markdown-mode-hook 'flycheck-mode)
+(setq dired-listing-switches "-lFa --group-directories-first")
 
-(global-undo-tree-mode)
+;; Executable paths
+(setq exec-path (append exec-path '("/home/kevin/.local/bin"
+				    "/home/kevin/.cargo/bin")))
 
-(when (eq system-type 'darwin)
-  (setq insert-directory-program "gls")
-  (global-set-key (kbd "s-3") (lambda () (interactive) (insert "#"))))
+;; Custom modules
+(add-to-list 'load-path "/home/kevin/.emacs.d/modules")
 
-
+;; -------------------------------------------------------------
 ;; General Global Keybindings
+;; -------------------------------------------------------------
+
+(global-set-key (kbd "<f5>") 'query-replace-regexp)
+(global-set-key (kbd "<f6>") 'query-replace)
+
+(global-set-key (kbd "M-[") 'text-scale-decrease)
+(global-set-key (kbd "M-]") 'text-scale-increase)
+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-x g") 'magit-status)
+
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 (global-set-key (kbd "C-r") 'isearch-backward-regexp)
 (global-set-key (kbd "C-M-s") 'isearch-forward)
 (global-set-key (kbd "C-M-r") 'isearch-backward)
 
-(global-set-key (kbd "<f5>") 'query-replace-regexp)
-(global-set-key (kbd "<f6>") 'query-replace)
-(global-set-key (kbd "<f8>") 'projectile-grep)
+;; -------------------------------------------------------------
+;; Packages
+;; -------------------------------------------------------------
+
+(use-package zenburn-theme)
+
+(use-package helm
+  :bind (("M-x" . helm-M-x)
+         ("C-x b" . helm-buffers-list)
+         ("C-x C-f" . helm-find-files)
+         ("C-c o" . helm-occur)))
+
+(use-package helm-swoop
+  :bind ("C-c n" . helm-swoop))
+
+(use-package magit
+  :bind ("C-x g" . magit-status))
+
+(use-package helm-projectile)
+(use-package projectile
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :bind (:map projectile-command-map
+              ("p" . helm-projectile)
+              ("f" . helm-projectile-find-file)
+              ("b" . helm-projectile-switch-to-buffer))
+  :config
+  (projectile-mode))
+
+;; package broken
+;; (use-package undo-tree)
+(require 'undo-tree)
+(global-undo-tree-mode)
+
+(use-package org)
+
+(use-package ripgrep)
+
+;; -------------------------------------------------------------
+;; Prog modes
+;; -------------------------------------------------------------
+
+(use-package elm-mode
+  :init
+  (setq elm-package-json "elm.json")
+  :config
+  (add-hook 'elm-mode-hook #'elm-format-on-save-mode)
+  (add-hook 'elm-mode-hook #'flycheck-mode))
+
+(use-package flycheck-elm
+  :config
+  (flycheck-elm-setup))
+
+(use-package intero
+  :config
+  (intero-global-mode))
+
+(use-package yaml-mode)
+
+(use-package nix-mode)
+
+(use-package typescript-mode
+  :mode ("\\tsx?\\'" . typescript-mode))
+
+(use-package scala-mode)
+
+;; ;; (global-set-key (kbd "s-3") (lambda () (interactive) (insert "#")))
+
+;; (global-set-key (kbd "<f8>") 'projectile-grep)
                                    
-(global-set-key (kbd "M-[") 'text-scale-decrease)
-(global-set-key (kbd "M-]") 'text-scale-increase)
+;; (global-set-key (kbd "C-x g") 'magit-status)
 
 
-;; Helm
-(global-set-key (kbd "C-x b") 'helm-buffers-list)
-(global-set-key (kbd "C-c i") 'helm-semantic-or-imenu)
-(global-set-key (kbd "C-x C-n") 'helm-swoop)
-(global-set-key (kbd "C-c p") 'helm-projectile-find-file)
-(global-set-key (kbd "C-c s") 'helm-git-grep)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-c j") 'helm-occur)
-(global-set-key (kbd "C-x r b") 'helm-bookmarks)
-(global-set-key (kbd "C-c e") 'helm-etags-select)
-(global-set-key (kbd "M-x") 'helm-M-x)
+;; ;; Helm
+;; (global-set-key (kbd "C-x b") 'helm-buffers-list)
+;; (global-set-key (kbd "C-c i") 'helm-semantic-or-imenu)
+;; (global-set-key (kbd "C-x C-n") 'helm-swoop)
+;; (global-set-key (kbd "C-c p") 'helm-projectile-find-file)
+;; (global-set-key (kbd "C-c s") 'helm-git-grep)
+;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+;; (global-set-key (kbd "C-c j") 'helm-occur)
+;; (global-set-key (kbd "C-x r b") 'helm-bookmarks)
+;; (global-set-key (kbd "C-c e") 'helm-etags-select)
+;; (global-set-key (kbd "M-x") 'helm-M-x)
 
 
-;; Org mode
-(global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c l") 'org-store-link)
-(add-hook 'org-mode-hook 'org-bullets-mode)
-(add-hook 'org-mode-hook 'flyspell-mode)
+;; ;; Org mode
+;; (global-set-key (kbd "C-c a") 'org-agenda)
+;; (global-set-key (kbd "C-c l") 'org-store-link)
+;; (add-hook 'org-mode-hook 'flyspell-mode)
+;; (add-hook 'org-mode-hook 'org-indent-mode)
+;; (add-hook 'org-mode-hook 'flyspell-mode)
+;; (require 'ox-gfm)
 
 
-;; expand-region
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
+;; ;; expand-region
+;; (require 'expand-region)
+;; (global-set-key (kbd "C-=") 'er/expand-region)
 
 
-;; projectile
-(require 'projectile)
-(projectile-global-mode)
-(setq projectile-completion-system 'helm)
+;; ;; projectile
+;; (require 'projectile)
+;; (setq projectile-completion-system 'helm)
+;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+;; (projectile-mode)
 
 
-;; Haskell
-(add-hook 'haskell-mode-hook 'haskell-indentation-mode)
-(add-hook 'haskell-mode-hook 'intero-mode)
+;; ;; Haskell
+;; (require 'haskell-mode)
+;; (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
+;; (add-hook 'haskell-mode-hook 'intero-mode)
 
 
-;; Typescript
-(add-hook 'typescript-mode-hook 'tide-mode)
-(add-hook 'typescript-mode-hook 'flycheck-mode)
+;; ;; Typescript
+;; (add-hook 'typescript-mode-hook 'tide-mode)
+;; (add-hook 'typescript-mode-hook 'flycheck-mode)
+;; (add-hook 'typescript-mode-hook 'add-node-modules-path)
+;; (add-hook 'typescript-mode-hook 'prettier-js-mode)
+;; (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-mode))
 
-
-;; Rust
+;; ;; Rust
 ;; (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
-(add-hook 'rust-mode-hook 'flycheck-mode)
-(add-hook 'rust-mode-hook 'cargo-minor-mode)
+;; (add-hook 'rust-mode-hook 'flycheck-mode)
+;; (add-hook 'rust-mode-hook 'cargo-minor-mode)
+
+;; ;; Javascript
+;; ;; (require 'js)
+;; ;; (require 'flycheck-flow)
+;; ;; (require 'add-node-modules-path)
+;; ;; (require 'prettier-js)
+;; ;; (add-hook 'js-mode-hook 'flycheck-mode)
+;; ;; (add-hook 'js-mode-hook 'add-node-modules-path)
+;; ;; (add-hook 'js-mode-hook 'prettier-js-mode)
+;; ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js-jsx-mode))
+;; ;; (setq js-indent-level 2)
+;; ;; (setq sgml-basic-offset 2)  ;; for jsx, but also affects html-mode
+;; ;; (put 'narrow-to-region 'disabled nil)
+
+;; (add-to-list 'load-path "/home/kevin/.emacs.d/modules")
+;; (require 'ovo)
 
 
-;; Javascript/flow
-(require 'js)
-(require 'flycheck-flow)
-(add-hook 'js-mode-hook 'flycheck-mode)
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . js-jsx-mode))
+
