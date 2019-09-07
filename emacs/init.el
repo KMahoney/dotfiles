@@ -31,11 +31,21 @@
 (setq dired-listing-switches "-lFa --group-directories-first")
 
 ;; Executable paths
-(setq exec-path (append exec-path '("/home/kevin/.local/bin"
-				    "/home/kevin/.cargo/bin")))
+(add-to-list 'exec-path (concat (getenv "HOME") "/.local/bin"))
+(add-to-list 'exec-path (concat (getenv "HOME") "/.cargo/bin"))
 
 ;; Custom modules
-(add-to-list 'load-path "/home/kevin/.emacs.d/modules")
+(add-to-list 'load-path (concat (getenv "HOME") "/.emacs.d/modules"))
+
+;; -------------------------------------------------------------
+;; Mac setup
+;; -------------------------------------------------------------
+
+(when (eq system-type 'darwin)
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+  (add-to-list 'exec-path ("/usr/local/bin"))
+  (setq insert-directory-program "gls")
+  (global-set-key (kbd "M-3") (lambda () (interactive) (insert "#"))))
 
 ;; -------------------------------------------------------------
 ;; General Global Keybindings
@@ -152,48 +162,3 @@
 ;; ;; expand-region
 ;; (require 'expand-region)
 ;; (global-set-key (kbd "C-=") 'er/expand-region)
-
-
-;; ;; projectile
-;; (require 'projectile)
-;; (setq projectile-completion-system 'helm)
-;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-;; (projectile-mode)
-
-
-;; ;; Haskell
-;; (require 'haskell-mode)
-;; (add-hook 'haskell-mode-hook 'haskell-indentation-mode)
-;; (add-hook 'haskell-mode-hook 'intero-mode)
-
-
-;; ;; Typescript
-;; (add-hook 'typescript-mode-hook 'tide-mode)
-;; (add-hook 'typescript-mode-hook 'flycheck-mode)
-;; (add-hook 'typescript-mode-hook 'add-node-modules-path)
-;; (add-hook 'typescript-mode-hook 'prettier-js-mode)
-;; (add-to-list 'auto-mode-alist '("\\.tsx?\\'" . typescript-mode))
-
-;; ;; Rust
-;; (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
-;; (add-hook 'rust-mode-hook 'flycheck-mode)
-;; (add-hook 'rust-mode-hook 'cargo-minor-mode)
-
-;; ;; Javascript
-;; ;; (require 'js)
-;; ;; (require 'flycheck-flow)
-;; ;; (require 'add-node-modules-path)
-;; ;; (require 'prettier-js)
-;; ;; (add-hook 'js-mode-hook 'flycheck-mode)
-;; ;; (add-hook 'js-mode-hook 'add-node-modules-path)
-;; ;; (add-hook 'js-mode-hook 'prettier-js-mode)
-;; ;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . js-jsx-mode))
-;; ;; (setq js-indent-level 2)
-;; ;; (setq sgml-basic-offset 2)  ;; for jsx, but also affects html-mode
-;; ;; (put 'narrow-to-region 'disabled nil)
-
-;; (add-to-list 'load-path "/home/kevin/.emacs.d/modules")
-;; (require 'ovo)
-
-
-
