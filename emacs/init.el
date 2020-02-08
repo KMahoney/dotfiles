@@ -33,6 +33,7 @@
 ;; Executable paths
 (add-to-list 'exec-path "~/.local/bin")
 (add-to-list 'exec-path "~/.cargo/bin")
+(add-to-list 'exec-path "~/bin")
 
 ;; Custom modules
 (add-to-list 'load-path (concat user-emacs-directory "modules"))
@@ -101,6 +102,8 @@
 (use-package org)
 
 (use-package ripgrep)
+
+(use-package rainbow-mode)
 
 ;; -------------------------------------------------------------
 ;; Prog modes
