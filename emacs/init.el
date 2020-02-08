@@ -136,35 +136,3 @@
 
 (use-package scala-mode)
 
-;; ;; (global-set-key (kbd "s-3") (lambda () (interactive) (insert "#")))
-
-;; (global-set-key (kbd "<f8>") 'projectile-grep)
-                                   
-;; (global-set-key (kbd "C-x g") 'magit-status)
-
-
-;; ;; Helm
-;; (global-set-key (kbd "C-x b") 'helm-buffers-list)
-;; (global-set-key (kbd "C-c i") 'helm-semantic-or-imenu)
-;; (global-set-key (kbd "C-x C-n") 'helm-swoop)
-;; (global-set-key (kbd "C-c p") 'helm-projectile-find-file)
-;; (global-set-key (kbd "C-c s") 'helm-git-grep)
-;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
-;; (global-set-key (kbd "C-c j") 'helm-occur)
-;; (global-set-key (kbd "C-x r b") 'helm-bookmarks)
-;; (global-set-key (kbd "C-c e") 'helm-etags-select)
-;; (global-set-key (kbd "M-x") 'helm-M-x)
-
-
-;; ;; Org mode
-;; (global-set-key (kbd "C-c a") 'org-agenda)
-;; (global-set-key (kbd "C-c l") 'org-store-link)
-;; (add-hook 'org-mode-hook 'flyspell-mode)
-;; (add-hook 'org-mode-hook 'org-indent-mode)
-;; (add-hook 'org-mode-hook 'flyspell-mode)
-;; (require 'ox-gfm)
-
-
-;; ;; expand-region
-;; (require 'expand-region)
-;; (global-set-key (kbd "C-=") 'er/expand-region)
