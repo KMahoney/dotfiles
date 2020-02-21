@@ -123,9 +123,14 @@
   :config
   (flycheck-elm-setup))
 
-(use-package intero
-  :config
-  (intero-global-mode))
+(use-package dante
+  :ensure t
+  :after haskell-mode
+  :commands 'dante-mode
+  :init
+  (add-hook 'haskell-mode-hook 'company-mode)
+  (add-hook 'haskell-mode-hook 'flycheck-mode)
+  (add-hook 'haskell-mode-hook 'dante-mode))
 
 (use-package yaml-mode)
 
@@ -136,3 +141,6 @@
 
 (use-package scala-mode)
 
+(use-package markdown-mode
+  :config
+  (add-hook 'markdown-mode-hook #'flyspell-mode))
