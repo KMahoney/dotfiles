@@ -94,10 +94,9 @@
   :config
   (projectile-mode))
 
-;; package broken
-;; (use-package undo-tree)
-(require 'undo-tree)
-(global-undo-tree-mode)
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode))
 
 (use-package org)
 
